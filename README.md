@@ -1,6 +1,10 @@
 # Local Whisper STT
 A simple script to transcribe audio files using Whisper locally.
 
+## Concept
+- This script uses the `openai/whisper` model to transcribe audio files.
+- This script uses the `pyannote/speaker-diarization-3.1` model to label speakers in the audio files.
+
 ## Requirements
 - Python 3.9.9
 - Poetry
