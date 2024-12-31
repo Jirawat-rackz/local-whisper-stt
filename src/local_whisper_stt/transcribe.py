@@ -1,5 +1,8 @@
+import os
 import whisper
 import time
+
+from local_whisper_stt.utils import export_to_csv
 
 class TranscribeRepository:
     def __init__(self):
@@ -19,12 +22,15 @@ class TranscribeRepository:
         readable_segments = []
         for segment in segments:
             r_segment = {}
-            r_segment["start"] = segment["start"]
-            r_segment["end"] = segment["end"]
+            r_segment["start"] = float(f"{segment['start']:.2f}")
+            r_segment["end"] = float(f"{segment['end']:.2f}")
             r_segment["text"] = segment["text"]
 
             readable_segments.append(r_segment)
 
         return readable_segments
 
-
+    def write_to_file(self, readable_segments, audio_file):
+        out = os.path.splitext(audio_file)[0] + "-transcribed.csv"
+        export_to_csv(readable_segments, out)
+        print(f"---- Transcribe result saved to {out} ----")

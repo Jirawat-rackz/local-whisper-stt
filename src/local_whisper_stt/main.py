@@ -17,23 +17,21 @@ def main():
     extension = ".m4a"
 
     print("Transcribing and diarizing audio files...")
-    print("="*30)
 
     for audio_file in get_audio_files(path, extension):
         converted_file = convert_audio_to_wav(audio_file)
 
         tr_result = transcribe_repository.transcribe(converted_file)
         tr_readable = transcribe_repository.to_readable(tr_result["segments"])
-        print(tr_readable)
 
-        print("="*30)
         di_result = diarization_repository.diarize(converted_file)
         di_readable = diarization_repository.to_readable(di_result)
-        print(di_readable)
+
+        transcribe_repository.write_to_file(tr_readable, audio_file)
+        diarization_repository.write_to_file(di_readable, audio_file)
 
         remove_file(converted_file)
-        print(f"Removed {converted_file}")
-        print("="*30)
+        print(f"---- Removed {converted_file} ----")
 
 if __name__ == "__main__":
     main()
